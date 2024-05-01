@@ -16,6 +16,7 @@ function Content({ isLogin, setIsLogin }) {
 
             <Routes className="main-content" >
 
+                <Route path="/" element={<ListTodos />} />
                 <Route path='/user' element={<ProtectedRoute />}  >
                     <Route path='list/:type' element={<ListTodos />} />
                     <Route path='add' element={<CreateTodo />} />

@@ -20,6 +20,8 @@ function ListTodos() {
 
     const { type } = useParams()
 
+
+
     const fetchTodo = async () => {
         let pendingTodos = [];
         let completedTodos = [];
@@ -62,7 +64,7 @@ function ListTodos() {
         <div>
             {showToast ? <Toasts message={toastMessage} showToast={showToast} setShowToast={setShowToast} /> : null}
 
-            <h2>{type}</h2>
+            <h2> {type ? type : 'Today'} </h2>
 
             <button className='btn my-primary my-3' onClick={addTodo} ><b>+Add Todo</b></button>
 
