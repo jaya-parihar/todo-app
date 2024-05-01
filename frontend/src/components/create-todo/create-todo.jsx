@@ -25,7 +25,6 @@ function CreateTodo() {
     const [toastMessage, setToastMessage] = useRecoilState(toastMessageAtom);
     const [isUpdate, setIsUpdate] = useState(false)
     const [action, setAction] = useState('Add')
-
     const createTodo = async (todo) => {
 
         setShowSpinner(true)
@@ -75,9 +74,12 @@ function CreateTodo() {
     useEffect(() => {
         if (location?.state) {
             if (Object.keys(location?.state).length) {
-                initialValues = location?.state
-                setIsUpdate(true)
-                setAction('Update')
+                if (location.state.type == 'Update') {
+                    initialValues = location?.state
+                    setIsUpdate(true)
+                    setAction('Update')
+                }
+
             }
         }
     }, [])

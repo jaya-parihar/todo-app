@@ -3,6 +3,7 @@ import Avatar from '../../assets/m_avatar.png';
 import { BsPencilSquare } from "react-icons/bs";
 import axios from "axios";
 import * as yup from 'yup'
+import Spinner from 'react-bootstrap/Spinner';
 import * as formik from 'formik'
 import Form from 'react-bootstrap/Form'
 import Row from "react-bootstrap/Row";
@@ -38,8 +39,10 @@ function Profile() {
 
     const [showToast, setShowToast] = useRecoilState(showToastAtom);
     const [toastMessage, setToastMessage] = useRecoilState(toastMessageAtom);
+    const [showSpinner, setShowSpinner] = useState(false);
 
     const fetchProfile = async () => {
+
         const result = await getUserProfileService()
         initialValues.name = result.data.data[0].name
         setUsername(result.data.data[0].name)
@@ -69,8 +72,8 @@ function Profile() {
 
     const schema = yup.object().shape({
         name: yup.string().min(3).max(20).required(),
-        password: yup.string().required().min(8),
-        confirmPassword: yup.string().min(8).required()
+        password: yup.string().min(8),
+        confirmPassword: yup.string().min(8)
     })
 
     const updateProfile = async (profile) => {
@@ -79,9 +82,12 @@ function Profile() {
             setToastMessage('Password and Confirm Password Must Match!')
             return
         }
+        setShowSpinner(true)
         const result = await updateProfileService(profile)
         if (result.data.status == 200) {
             initialValues = {}
+            setShowSpinner(false)
+            localStorage.setItem('username', result.data.data.name)
             setShowToast(true)
             setToastMessage('Profile Updated Successfully')
         }
@@ -147,7 +153,16 @@ function Profile() {
                                                         </FloatingLabel>
                                                     </Form.Group>
                                                 </Row>
-                                                <button className="btn my-primary mx-1" type="submit">Update Profile</button>
+                                                <button className="btn my-primary mx-1" type="submit">
+                                                    <Spinner
+                                                        as="span"
+                                                        animation="none"
+                                                        size="sm"
+                                                        role="status"
+                                                        aria-hidden="true"
+                                                    />
+                                                    <b>{showSpinner ? 'Loading...' : 'Update Profile'}</b>
+                                                </button>
 
                                             </Form>
                                         </div>

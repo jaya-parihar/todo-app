@@ -57,6 +57,7 @@ function ListTodos() {
         }, [])
 
     function addTodo() {
+
         navigate('/user/add', { state: { type: type } })
     }
 
@@ -71,14 +72,14 @@ function ListTodos() {
             <Accordion defaultActiveKey={type == 'Completed' ? "1" : "0"}  >
                 {type != 'Completed' ? <Accordion.Item eventKey="0">
                     <Accordion.Header><b>Pending Todos</b></Accordion.Header>
-                    <Accordion.Body style={{ maxHeight: '400px', overflowY: 'auto' }} >
+                    <Accordion.Body style={{ maxHeight: '20rem', overflowY: 'auto' }} >
                         {todos.length > 0 ? todos.map((e) => <Todos key={e._id} title={e.title} description={e.description} time={e.time} date={e.date} isCompleted={e.isCompleted} id={e._id} term={type} />) : <h6>Try adding some todo to see them here</h6>}
                     </Accordion.Body>
                 </Accordion.Item>
                     : null}
                 <Accordion.Item eventKey="1" >
                     <Accordion.Header><b>Completed Todos</b> </Accordion.Header>
-                    <Accordion.Body style={{ maxHeight: '400px', overflowY: 'auto' }} >
+                    <Accordion.Body style={{ maxHeight: '20rem', overflowY: 'auto' }} >
                         {completedTodos.length > 0 ? completedTodos.map((e) => <Todos key={e._id} title={e.title} description={e.description} time={e.time} date={e.date} isCompleted={e.isCompleted} term={type} id={e._id} />) : <h6>Try completing some todo to see them here</h6>}
                     </Accordion.Body>
 
