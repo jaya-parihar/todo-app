@@ -1,0 +1,18 @@
+.accordion{
+    cursor: pointer;
+}
+ 
+
+
+.flexRowBWContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+.flexRowContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
