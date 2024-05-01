@@ -3,6 +3,7 @@ const app = express()
 const dotenv = require('dotenv')
 const cors = require('cors')
 const path = require("path")
+const fs = require('fs')
 dotenv.config()
 const userRouter = require('./routers/user-router')
 
@@ -11,6 +12,10 @@ app.use(express.json())
 app.use(express.static(__dirname + '../uploads'))
 
 const { PORT } = process.env
+
+if (!fs.existsSync(path.join(__dirname, "../uploads"))) {
+    fs.mkdirSync(path.join(__dirname, "../uploads"));
+}
 
 app.use('/user', userRouter)
 
