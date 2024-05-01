@@ -67,10 +67,10 @@ exports.listTodos = async (req, res) => {
 
         switch (type) {
             case 'all':
-                result = await todosModel.find();
+                result = await todosModel.find().sort({ date: 1 });
                 break;
             case 'completed':
-                result = await todosModel.find({ isCompleted: true })
+                result = await todosModel.find({ isCompleted: true }).sort({ date: 1 })
                 break;
             case 'today':
                 endDate = `${d.getFullYear()}-${("0" + (d.getMonth() + 1)).slice(-2)}-${("0" + d.getDate()).slice(-2)}`;
@@ -79,7 +79,7 @@ exports.listTodos = async (req, res) => {
                         $gte: new Date(startDate),
                         $lt: new Date(endDate)
                     }
-                })
+                }).sort({ date: 1 })
                 break;
             case 'upcoming':
                 startDate = `${d.getFullYear()}-${("0" + (d.getMonth() + 1)).slice(-2)}-${("0" + d.getDate()).slice(-2)}`;
@@ -90,7 +90,7 @@ exports.listTodos = async (req, res) => {
                         $gte: new Date(startDate),
                         $lt: new Date(endDate)
                     }
-                })
+                }).sort({ date: 1 })
                 break;
             default:
                 return res.json(RESPONSE({ status: 400, message: respMessage.BAD_REQ }))
@@ -174,6 +174,7 @@ exports.updateProfile = async (req, res) => {
         let result = await userModel.findOneAndUpdate({ _id: ID }, { name: name, password: pswd })
         result = result._doc
         const { password, ...user } = result
+        user.name = name
         res.json(RESPONSE({ data: user }))
     } catch (error) {
         console.log(error.message || error);
